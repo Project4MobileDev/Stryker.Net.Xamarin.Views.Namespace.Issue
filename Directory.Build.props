@@ -1,0 +1,40 @@
+<Project>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <DebugType>Full</DebugType>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NugetPackage Condition=" '$(NugetPackage)' == '' ">0.1.0.0</NugetPackage>
+    <!-- When using a build pipeline we should always be using a 'Release' configuration. -->
+    <!-- So this just makes it clear that any Debug build is explicitly tagged and will never be confused with a release build. -->
+    <Version>$(NugetPackage)</Version>
+    <Version Condition=" '$(Configuration)' == 'Debug' ">$(NugetPackage)-debug</Version>
+    <SemVerVersion>$(Version)</SemVerVersion>
+
+    <FileVersion>$(Version)</FileVersion>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <Authors>Acme</Authors>
+    <Company>Acme Retail Data Systems Ltd</Company>
+    <Product>Acme App package</Product>
+    <Copyright>Copyright Acme ♾</Copyright>
+    <Product>Acme</Product>
+    <RepositoryType>Git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114" PrivateAssets="all" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.ruleset" Link="Properties\stylecop.ruleset" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" Link="Properties\stylecop.json" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.11.0.8083">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
+
